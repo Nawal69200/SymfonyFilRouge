@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Inscription{% endblock %}
+
+
+
+{% block body %}
+
+    <h1 class="h3 mb-3 font-weight-normal">S'inscrire</h1>
+
+
+
+    {{ form_errors(registrationForm) }}
+
+
+
+    {{ form_start(registrationForm) }}
+
+        <div>{{ form_row(registrationForm.username) }}</div>
+
+        <div>{{ form_row(registrationForm.email) }}</div>
+
+        <div>{{ form_row(registrationForm.plainPassword, {
+
+            label: 'Password'
+
+        }) }}</div>
+
+        <div>{{ form_row(registrationForm.agreeTerms) }}</div>
+
+
+
+        <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button>
+
+    {{ form_end(registrationForm) }}
+
+    <p>Déjà inscrit(e) ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+
+{% endblock %}
