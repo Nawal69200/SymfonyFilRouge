@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +26,7 @@ class Recipe
     private ?\DateTimeInterface $prepTime = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $cookingTime = null;
+    private ?\DateTimeInterface $cookTime = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -32,11 +34,22 @@ class Recipe
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column]
-    private ?bool $defaultPortions = null;
+    #[ORM\Column(type: "integer")]
+    private ?int $defaultPortions = null;
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+
+    /**
+     * @var Collection<int, Step>
+     */
+    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'recipe', cascade: ['persist', 'remove'])]
+    private Collection $steps;
+
+    public function __construct()
+    {
+        $this->steps = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,7 +64,6 @@ class Recipe
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -63,7 +75,6 @@ class Recipe
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -75,19 +86,17 @@ class Recipe
     public function setPrepTime(\DateTimeInterface $prepTime): static
     {
         $this->prepTime = $prepTime;
-
         return $this;
     }
 
-    public function getCookingTime(): ?\DateTimeInterface
+    public function getCookTime(): ?\DateTimeInterface
     {
-        return $this->cookingTime;
+        return $this->cookTime;
     }
 
-    public function setCookingTime(?\DateTimeInterface $cookingTime): static
+    public function setCookTime(?\DateTimeInterface $cookTime): static
     {
-        $this->cookingTime = $cookingTime;
-
+        $this->cookTime = $cookTime;
         return $this;
     }
 
@@ -99,7 +108,6 @@ class Recipe
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -111,19 +119,17 @@ class Recipe
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
-    public function isDefaultPortions(): ?bool
+    public function getDefaultPortions(): ?int
     {
         return $this->defaultPortions;
     }
 
-    public function setDefaultPortions(bool $defaultPortions): static
+    public function setDefaultPortions(int $defaultPortions): static
     {
         $this->defaultPortions = $defaultPortions;
-
         return $this;
     }
 
@@ -135,7 +141,37 @@ class Recipe
     public function setImage(string $image): static
     {
         $this->image = $image;
+        return $this;
+    }
+    
+
+    /**
+     * @return Collection<int, Step>
+     */
+    public function getSteps(): Collection
+    {
+        return $this->steps;
+    }
+
+    public function addStep(Step $step): static
+    {
+        if (!$this->steps->contains($step)) {
+            $this->steps->add($step);
+            $step->setRecipe($this);
+        }
 
         return $this;
     }
+
+    public function removeStep(Step $step): static
+    {
+        $this->steps->removeElement($step);
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getTitle();  
+    }
+
 }

@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Recette : {{ slug }}{% endblock %}
+{% block title %}Recettes{% endblock %}
 
 {% block body %}
-    {{slug | title}} {# filtre titre de twig #}
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita facere excepturi possimus tempora consequatur vitae officia doloremque. Error quae libero ea dignissimos, laboriosam, architecto quis molestiae aliquid ullam velit iusto.
-
+    <h1>Liste des recettes</h1>
+    <ul>
+        {% for recipe in recipes %}
+            <li><a href="{{ path('recipe.show', {'slug': recipe.slug, 'id': recipe.id}) }}">{{ recipe.title }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}
- 

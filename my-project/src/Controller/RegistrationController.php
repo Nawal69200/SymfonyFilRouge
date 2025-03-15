@@ -32,31 +32,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
-            /*
-            //Générer le token
-            //Header
-            $header = [
-                'alg'=> 'HS256',
-                'typ' => 'JWT'
-            ];
-
-            //Payload
-            $payload = [
-                'user_id' => $user->getId()
-            ];
-
-            //On génère le token
-            $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecrert'));
-            //dd($token);
-            //Envoyer l'email
-            $mail->send(
-                'no-reply@recettesx.fr',
-                $user->getEmail(),
-                'Activation de votre compte sur le site Recettes X',
-                'register',
-                compact('user', 'token') // ['user' => $user, 'token' => $token]
-            );*/
 
             return $security->login($user, AppAuthenticator::class, 'main');
         }

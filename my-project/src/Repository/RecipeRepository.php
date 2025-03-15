@@ -16,6 +16,24 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    //     /** EXEMPLE DE REQUETES DQL
+    //      * Toutes les recettes mises en favori
+    //      * @param int $userId
+    //     * @return Recipe[] Returns an array of Recipe objects
+    //     */
+    //    public function findRecipeqByUserId($userId): array
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->innerJoin()
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('r.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
     //    /**
     //     * @return Recipe[] Returns an array of Recipe objects
     //     */
