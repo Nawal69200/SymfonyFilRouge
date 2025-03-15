@@ -12,6 +12,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TimeField;
 
 class RecipeCrudController extends AbstractCrudController
 {
+    use Trait\ReadOnlyTrait;
+    
     public static function getEntityFqcn(): string
     {
         return Recipe::class;
